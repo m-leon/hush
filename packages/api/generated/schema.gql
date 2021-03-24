@@ -1,0 +1,59 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type GroupSecretModel {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  group: GroupModel!
+  cipher: String!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type GroupModel {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  members: [GroupMembershipModel!]!
+  secrets: [GroupSecretModel!]!
+  name: String!
+  color: String!
+  privateKey: String!
+}
+
+type SecretModel {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  owner: UserModel!
+  cipher: String!
+}
+
+type UserModel {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  groups: [GroupModel!]!
+  secrets: [SecretModel!]!
+  username: String!
+  publicKey: String!
+}
+
+type GroupMembershipModel {
+  id: ID!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  user: UserModel!
+  group: GroupModel!
+}
+
+type Query {
+  groups: [GroupModel!]!
+  secrets: [SecretModel!]!
+  users: [UserModel!]!
+}

@@ -1,0 +1,68 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../dist/"
+}
+
+model Group {
+  id         String            @id @default(cuid())
+  createdAt  DateTime          @default(now())
+  updatedAt  DateTime          @updatedAt
+  // Relations
+  members    GroupMembership[]
+  secrets    GroupSecret[]
+  // Properties
+  name       String
+  color      String
+  privateKey String
+}
+
+model GroupMembership {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  // Relations
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+  group     Group    @relation(fields: [groupId], references: [id])
+  groupId   String
+}
+
+model GroupSecret {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  // Relations
+  group     Group    @relation(fields: [groupId], references: [id])
+  groupId   String
+  // Properties
+  cipher    String
+}
+
+model Secret {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  // Relations
+  owner     User     @relation(fields: [ownerId], references: [id])
+  ownerId   String
+  // Properties
+  cipher    String
+}
+
+model User {
+  id        String            @id @default(cuid())
+  createdAt DateTime          @default(now())
+  updatedAt DateTime          @updatedAt
+  // Relations
+  groups    GroupMembership[]
+  secrets   Secret[]
+  // Properties
+  username  String            @unique
+  password  String
+  publicKey String
+}

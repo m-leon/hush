@@ -1,0 +1,16 @@
+{
+  "name": "@hush/db-public",
+  "version": "1.0.0",
+  "private": true,
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "postinstall": "prisma generate"
+  },
+  "dependencies": {
+    "@prisma/client": "2.19.0"
+  },
+  "devDependencies": {
+    "prisma": "2.19.0"
+  }
+}
