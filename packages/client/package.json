@@ -9,13 +9,15 @@
   },
   "dependencies": {
     "next": "10.0.9",
-    "node-forge": "0.10.0",
     "react": "17.0.2",
-    "react-dom": "17.0.2"
+    "react-dom": "17.0.2",
+    "seedrandom": "3.0.5",
+    "xchacha20-js": "0.3.0"
   },
   "devDependencies": {
-    "@types/node": "^14.14.35",
+    "@types/node": "14.14.35",
     "@types/react": "17.0.3",
-    "typescript": "^4.2.3"
+    "@types/seedrandom": "3.0.0",
+    "typescript": "4.2.3"
   }
 }
