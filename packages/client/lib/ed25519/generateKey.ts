@@ -10,7 +10,7 @@ export type Ed25519Key = ReturnType<typeof generateKey>;
 
 export const generateKey = (seed: string) => {
   const rng = new RNG(seed);
-  const SEED = rng.getBytes(SEED_LENGTH);
+  const seedBytes = rng.getBytes(SEED_LENGTH);
 
-  return ed25519.generateKeyPair({ seed: SEED });
+  return ed25519.generateKeyPair({ seed: seedBytes });
 };

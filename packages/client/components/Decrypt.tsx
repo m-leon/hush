@@ -6,12 +6,19 @@ const Decrypt = () => {
   const [seed, setSeed] = useState('');
   const [clear, setClear] = useState('');
   const [cipher, setCipher] = useState('');
+  const [error, setError] = useState('');
 
   useEffect(() => {
     (async () => {
-      const key = generateKey(seed);
-      const clear = await decryptMessage(cipher, key);
-      setClear(clear);
+      try {
+        const key = generateKey(seed);
+        const clear = await decryptMessage(cipher, key);
+        setClear(clear);
+        setError('');
+      } catch (e) {
+        setClear('');
+        setError(e.toString());
+      }
     })();
   }, [seed, cipher]);
 
@@ -24,6 +31,8 @@ const Decrypt = () => {
       <input type="text" value={cipher} onChange={(e) => setCipher(e.target.value)} />
       <label>Message</label>
       <span>{clear}</span>
+      <label>Error</label>
+      <span>{error}</span>
     </div>
   );
 };

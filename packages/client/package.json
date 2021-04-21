@@ -8,15 +8,16 @@
     "start": "next start"
   },
   "dependencies": {
+    "libsodium-wrappers": "0.7.9",
     "next": "10.0.9",
     "node-forge": "0.10.0",
     "react": "17.0.2",
     "react-dom": "17.0.2",
     "react-hook-form": "7.0.5",
-    "seedrandom": "3.0.5",
-    "xchacha20-js": "0.3.0"
+    "seedrandom": "3.0.5"
   },
   "devDependencies": {
+    "@types/libsodium-wrappers": "0.7.9",
     "@types/node": "14.14.35",
     "@types/node-forge": "0.9.7",
     "@types/react": "17.0.3",

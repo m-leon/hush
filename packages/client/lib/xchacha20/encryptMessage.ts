@@ -1,14 +1,8 @@
-import { XChaCha20 } from 'xchacha20-js';
+import sodium from 'libsodium-wrappers';
 
-import { bytesToHex } from '@/lib/utils';
 import type { XChaCha20Key } from './generateKey';
 
-const xcha20 = new XChaCha20();
-
-const BLOCK_COUNTER = 1;
-
-export const encryptMessage = async (cleartext: string, { key, nonce }: XChaCha20Key) => {
-  const clear = new TextEncoder().encode(cleartext);
-  const cipher = (await xcha20.encrypt(clear, nonce, key, BLOCK_COUNTER)) as Uint8Array;
-  return bytesToHex(cipher);
+export const encryptMessage = async (message: string, { key, nonce }: XChaCha20Key) => {
+  await sodium.ready;
+  return sodium.crypto_aead_xchacha20poly1305_ietf_encrypt(message, null, null, nonce, key, 'hex');
 };
