@@ -11,6 +11,10 @@ export class RNG {
   }
 
   getBytes(length: number) {
-    return Buffer.from(new Array(length).fill(null).map(() => Math.floor(this.rng.double() * 255)));
+    return Buffer.from(new Array(length).fill(null).map(() => this.getRandomInt(0, 255)));
+  }
+
+  getRandomInt(min: number, max: number) {
+    return Math.floor(this.rng.double() * (max - min + 1) + min);
   }
 }
