@@ -1,13 +1,12 @@
-import seedrandom from 'seedrandom';
-
+import { ISAAC } from './isaac';
 import { sha512Hash } from '@/lib/utils/sha512';
 
 export class RNG {
-  private rng: ReturnType<seedrandom>;
+  private rng: ISAAC;
 
   constructor(seed: string) {
     const hash = sha512Hash(seed);
-    this.rng = seedrandom(hash);
+    this.rng = new ISAAC(hash);
   }
 
   getBytes(length: number) {
@@ -15,6 +14,6 @@ export class RNG {
   }
 
   getRandomInt(min: number, max: number) {
-    return Math.floor(this.rng.double() * (max - min + 1) + min);
+    return Math.floor(this.rng.random() * (max - min + 1) + min);
   }
 }
