@@ -16,8 +16,8 @@ export class RNG {
         256, // Length of key
         seed, // Clear text
         salt, // Deterministic seed
-        sodium.crypto_pwhash_OPSLIMIT_MIN,
-        sodium.crypto_pwhash_MEMLIMIT_MIN,
+        10, // Rounds
+        10 * 1024 * 1024, // Memory
         sodium.crypto_pwhash_ALG_ARGON2ID13,
         'hex'
       );
