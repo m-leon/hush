@@ -8,9 +8,11 @@ const Signature = () => {
   const [signature, setSignature] = useState('');
 
   useEffect(() => {
-    const key = generateKey(seed);
-    const signature = signMessage(clear, key);
-    setSignature(signature);
+    (async () => {
+      const key = await generateKey(seed);
+      const signature = signMessage(clear, key);
+      setSignature(signature);
+    })();
   }, [seed, clear]);
 
   return (

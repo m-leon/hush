@@ -9,13 +9,15 @@ const Verify = () => {
   const [verified, setVerified] = useState(false);
 
   useEffect(() => {
-    const key = generateKey(seed);
-    try {
-      const verified = verifyMessage(message, signature, key);
-      setVerified(verified);
-    } catch (e) {
-      setVerified(false);
-    }
+    (async () => {
+      const key = await generateKey(seed);
+      try {
+        const verified = verifyMessage(message, signature, key);
+        setVerified(verified);
+      } catch (e) {
+        setVerified(false);
+      }
+    })();
   }, [seed, message, signature]);
 
   return (

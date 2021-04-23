@@ -8,6 +8,7 @@
     "start": "next start"
   },
   "dependencies": {
+    "argon2-browser": "1.15.4",
     "libsodium-wrappers": "0.7.9",
     "next": "10.0.9",
     "node-forge": "0.10.0",

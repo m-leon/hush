@@ -1,15 +1,10 @@
 import { RNG } from '@/lib/rng';
 
 const KEY_LENGTH = 32;
-const NONCE_LENGTH = 24;
 
-export type XChaCha20Key = ReturnType<typeof generateKey>;
+export type XChaCha20Key = ThenArg<ReturnType<typeof generateKey>>;
 
-export const generateKey = (seed: string) => {
+export const generateKey = async (seed: string) => {
   const rng = new RNG(seed);
-
-  return {
-    key: rng.getBytes(KEY_LENGTH),
-    nonce: rng.getBytes(NONCE_LENGTH)
-  };
+  return rng.getBytes(KEY_LENGTH);
 };
