@@ -1,17 +1,11 @@
-import forge from 'node-forge';
+import sodium from 'libsodium-wrappers';
 
-import type { Ed25519Key } from './generateKey';
-import { hexToBytes } from '@/lib/utils';
+import type { SignKeyPair } from './generateKey';
 
-const { ed25519 } = forge.pki;
+type PublicKey = SignKeyPair['publicKey'];
 
-export const verifyMessage = (message: string, signature: string, { publicKey }: Ed25519Key) => {
-  const signatureBytes = hexToBytes(signature);
-
-  return ed25519.verify({
-    message,
-    encoding: 'utf8',
-    signature: signatureBytes,
-    publicKey
-  });
+export const verifyMessage = async (signedMessage: string, publicKey: PublicKey) => {
+  await sodium.ready;
+  const signedBytes = sodium.from_base64(signedMessage);
+  return sodium.crypto_sign_open(signedBytes, publicKey, 'text');
 };

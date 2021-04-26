@@ -9,8 +9,8 @@ const Signature = () => {
 
   useEffect(() => {
     (async () => {
-      const key = await generateKey(seed);
-      const signature = signMessage(clear, key);
+      const { privateKey } = await generateKey(seed);
+      const signature = await signMessage(clear, privateKey);
       setSignature(signature);
     })();
   }, [seed, clear]);
