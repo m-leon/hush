@@ -1731,6 +1731,11 @@
   resolved "https://registry.yarnpkg.com/@types/http-errors/-/http-errors-1.8.0.tgz#682477dbbbd07cd032731cb3b0e7eaee3d026b69"
   integrity sha512-2aoSC4UUbHDj2uCsCxcG/vRMXey/m17bC7UwitVm5hn22nI8O8Y9iDpA76Orc+DWkQ4zZrOKEshCqR/jSuXAHA==
 
+"@types/isaac@0.0.0":
+  version "0.0.0"
+  resolved "https://registry.yarnpkg.com/@types/isaac/-/isaac-0.0.0.tgz#011d1096781d1dcd972eaef192758fd1f587bc71"
+  integrity sha512-R98K2ksPHDp/LNkTJ8jclRimQoY4SFe9NRhuetLWbrvetTevhxynmeoaj63qL1TXL+gBmkPdVLO164MTzDjJxg==
+
 "@types/istanbul-lib-coverage@*", "@types/istanbul-lib-coverage@^2.0.0", "@types/istanbul-lib-coverage@^2.0.1":
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/@types/istanbul-lib-coverage/-/istanbul-lib-coverage-2.0.3.tgz#4ba8ddb720221f432e443bd5f9117fd22cfd4762"
@@ -5594,6 +5599,11 @@ is-wsl@^2.2.0:
   integrity sha512-fKzAra0rGJUUBwGBgNkHZuToZcn+TtXHpeCgmkMJMMYx1sQDYaCSyjJBSCa2nH1DGm7s3n1oBnohoVTBaN7Lww==
   dependencies:
     is-docker "^2.0.0"
+
+isaac@0.0.5:
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/isaac/-/isaac-0.0.5.tgz#a4f292229a8bdf6e33900a3eb8b4201a57ff2d89"
+  integrity sha1-pPKSIpqL324zkAo+uLQgGlf/LYk=
 
 isarray@0.0.1:
   version "0.0.1"
