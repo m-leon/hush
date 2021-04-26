@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { encryptMessage, generateKey } from '@/lib/xchacha20';
+import { encryptMessage, useXChaCha20KeyWorker } from '@/lib/xchacha20';
 
 const Encrypt = () => {
   const [seed, setSeed] = useState('');
@@ -8,10 +8,11 @@ const Encrypt = () => {
   const [cipher, setCipher] = useState('');
   const [error, setError] = useState('');
 
+  const key = useXChaCha20KeyWorker(seed);
+
   useEffect(() => {
     (async () => {
       try {
-        const key = await generateKey(seed);
         const cipher = await encryptMessage(clear, key);
         setCipher(cipher);
         setError('');
@@ -20,7 +21,7 @@ const Encrypt = () => {
         setError(e.toString());
       }
     })();
-  }, [seed, clear]);
+  }, [seed, key, clear]);
 
   return (
     <div>
