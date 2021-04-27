@@ -23,11 +23,11 @@ const _getHash = async (seed: string) => {
   await sodium.ready;
 
   return sodium.crypto_pwhash(
-    256, // Length of key
+    4096, // Length of key
     seed, // Clear text
     salt, // Deterministic seed
-    10, // Rounds
-    10 * 1024 * 1024, // Memory
+    12, // Rounds
+    16 * 1024 * 1024, // Memory
     sodium.crypto_pwhash_ALG_ARGON2ID13,
     'hex'
   );
