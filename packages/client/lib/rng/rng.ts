@@ -1,44 +1,40 @@
+import isaac from 'isaac';
 import sodium from 'libsodium-wrappers';
 
-import { ISAAC } from './isaac';
+export const getBytes = async (length: number, seed: string) => {
+  // Expand given seed with Argon 2
+  // This should reduce brute-force attempts
+  const hash = await _getHash(seed);
 
-export class RNG {
-  private ready: Promise<void>;
-  private isaac: ISAAC;
+  // Reseed isaac with expanded seed
+  isaac.seed(hash);
 
-  constructor(seed: string) {
-    this.ready = new Promise(async (resolve) => {
-      await sodium.ready;
+  // Return next n bytes from isaac
+  return _getBytes(length);
+};
 
-      const salt = this.generateSalt(seed);
+const _getBytes = (length: number) => {
+  return new Uint8Array(new Array(length).fill(null).map(() => Math.floor(isaac.random() * 256)));
+};
 
-      const hash = sodium.crypto_pwhash(
-        256, // Length of key
-        seed, // Clear text
-        salt, // Deterministic seed
-        10, // Rounds
-        10 * 1024 * 1024, // Memory
-        sodium.crypto_pwhash_ALG_ARGON2ID13,
-        'hex'
-      );
+const _getHash = async (seed: string) => {
+  const salt = await _getSalt(seed);
 
-      this.isaac = new ISAAC(hash);
+  await sodium.ready;
 
-      resolve();
-    });
-  }
+  return sodium.crypto_pwhash(
+    256, // Length of key
+    seed, // Clear text
+    salt, // Deterministic seed
+    10, // Rounds
+    10 * 1024 * 1024, // Memory
+    sodium.crypto_pwhash_ALG_ARGON2ID13,
+    'hex'
+  );
+};
 
-  private generateSalt(seed: string, length = 16) {
-    const saltIsaac = new ISAAC(seed);
-    return this._getBytes(length, saltIsaac);
-  }
-
-  private _getBytes(length: number, isaac = this.isaac) {
-    return new Uint8Array(new Array(length).fill(null).map(() => Math.floor(isaac.random() * 256)));
-  }
-
-  async getBytes(length: number) {
-    await this.ready;
-    return this._getBytes(length);
-  }
-}
+const _getSalt = async (seed: string) => {
+  await sodium.ready;
+  isaac.seed(seed);
+  return _getBytes(sodium.crypto_pwhash_SALTBYTES);
+};

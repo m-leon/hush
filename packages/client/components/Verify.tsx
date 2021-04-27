@@ -1,36 +1,34 @@
 import { useEffect, useState } from 'react';
 
-import { generateKey, verifyMessage } from '@/lib/ed25519';
+import { useEd25519KeyWorker, verifyMessage } from '@/lib/ed25519';
 
 const Verify = () => {
   const [seed, setSeed] = useState('');
+  const [signedMessage, setSigned] = useState('');
   const [message, setMessage] = useState('');
-  const [signature, setSignature] = useState('');
-  const [verified, setVerified] = useState(false);
+
+  const { publicKey } = useEd25519KeyWorker(seed);
 
   useEffect(() => {
     (async () => {
-      const key = await generateKey(seed);
       try {
-        const verified = verifyMessage(message, signature, key);
-        setVerified(verified);
+        const message = await verifyMessage(signedMessage, publicKey);
+        setMessage(message);
       } catch (e) {
-        setVerified(false);
+        setMessage('');
       }
     })();
-  }, [seed, message, signature]);
+  }, [seed, signedMessage]);
 
   return (
     <div>
       <h1>VERIFY</h1>
       <label>Seed</label>
       <input type="text" value={seed} onChange={(e) => setSeed(e.target.value)} />
-      <label>Message</label>
-      <input type="text" value={message} onChange={(e) => setMessage(e.target.value)} />
       <label>Signature</label>
-      <input type="text" value={signature} onChange={(e) => setSignature(e.target.value)} />
-      <label>Verified</label>
-      <span>{`${verified}`}</span>
+      <input type="text" value={signedMessage} onChange={(e) => setSigned(e.target.value)} />
+      <label>Message</label>
+      <span>{message}</span>
     </div>
   );
 };

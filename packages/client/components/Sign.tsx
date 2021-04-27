@@ -1,17 +1,22 @@
 import { useEffect, useState } from 'react';
 
-import { generateKey, signMessage } from '@/lib/ed25519';
+import { signMessage, useEd25519KeyWorker } from '@/lib/ed25519';
 
 const Signature = () => {
   const [seed, setSeed] = useState('');
   const [clear, setClear] = useState('');
   const [signature, setSignature] = useState('');
 
+  const { privateKey } = useEd25519KeyWorker(seed);
+
   useEffect(() => {
     (async () => {
-      const key = await generateKey(seed);
-      const signature = signMessage(clear, key);
-      setSignature(signature);
+      try {
+        const signature = await signMessage(clear, privateKey);
+        setSignature(signature);
+      } catch (error) {
+        console.log(error);
+      }
     })();
   }, [seed, clear]);
 

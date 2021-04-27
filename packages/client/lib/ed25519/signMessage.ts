@@ -1,16 +1,10 @@
-import forge from 'node-forge';
+import sodium from 'libsodium-wrappers';
 
-import { bytesToHex } from '@/lib/utils';
-import type { Ed25519Key } from './generateKey';
+import type { SignKeyPair } from './generateKey';
 
-const { ed25519 } = forge.pki;
+type PrivateKey = SignKeyPair['privateKey'];
 
-export const signMessage = (message: string, { privateKey }: Ed25519Key) => {
-  const signature = ed25519.sign({
-    message,
-    encoding: 'utf8',
-    privateKey
-  });
-
-  return bytesToHex(signature);
+export const signMessage = async (message: string, privateKey: PrivateKey) => {
+  await sodium.ready;
+  return sodium.crypto_sign(message, privateKey, 'base64');
 };
