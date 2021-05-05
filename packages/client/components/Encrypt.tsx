@@ -19,7 +19,7 @@ const Encrypt = () => {
         setCipher('');
       }
     })();
-  }, [seed, key, clear]);
+  }, [key, clear]);
 
   return (
     <div>

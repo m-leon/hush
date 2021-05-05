@@ -19,7 +19,7 @@ const Signature = () => {
         setSignature('');
       }
     })();
-  }, [seed, clear]);
+  }, [privateKey, clear]);
 
   return (
     <div>

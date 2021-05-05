@@ -19,7 +19,7 @@ const Verify = () => {
         setMessage('');
       }
     })();
-  }, [seed, signedMessage]);
+  }, [publicKey, signedMessage]);
 
   return (
     <div>

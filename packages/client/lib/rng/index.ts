@@ -1,2 +1,2 @@
+export * from './getHashWorker';
 export * from './rng';
-export * from './useHashWorker';

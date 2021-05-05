@@ -19,7 +19,7 @@ const Decrypt = () => {
         setClear('');
       }
     })();
-  }, [seed, key, ciphertext]);
+  }, [key, ciphertext]);
 
   return (
     <div>
