@@ -2,12 +2,8 @@ import isaac from 'isaac';
 import sodium from 'libsodium-wrappers';
 
 export const getBytes = async (length: number, seed: string) => {
-  // Expand given seed with Argon 2
-  // This should reduce brute-force attempts
-  const hash = await _getHash(seed);
-
   // Reseed isaac with expanded seed
-  isaac.seed(hash);
+  isaac.seed(seed);
 
   // Return next n bytes from isaac
   return _getBytes(length);
@@ -17,7 +13,7 @@ const _getBytes = (length: number) => {
   return new Uint8Array(new Array(length).fill(null).map(() => Math.floor(isaac.random() * 256)));
 };
 
-const _getHash = async (seed: string) => {
+export const getHash = async (seed: string) => {
   const salt = await _getSalt(seed);
 
   await sodium.ready;

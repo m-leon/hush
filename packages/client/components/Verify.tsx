@@ -1,13 +1,13 @@
 import { useEffect, useState } from 'react';
 
-import { useEd25519KeyWorker, verifyMessage } from '@/lib/ed25519';
+import { useEd25519Key, verifyMessage } from '@/lib/ed25519';
 
 const Verify = () => {
   const [seed, setSeed] = useState('');
   const [signedMessage, setSigned] = useState('');
   const [message, setMessage] = useState('');
 
-  const { publicKey } = useEd25519KeyWorker(seed);
+  const { publicKey } = useEd25519Key(seed);
 
   useEffect(() => {
     (async () => {
@@ -15,6 +15,7 @@ const Verify = () => {
         const message = await verifyMessage(signedMessage, publicKey);
         setMessage(message);
       } catch (e) {
+        console.log(e);
         setMessage('');
       }
     })();

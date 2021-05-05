@@ -1,14 +1,13 @@
 import { useEffect, useRef, useState } from 'react';
 
-import { XChaCha20Key } from './generateKey';
-
-export const useXChaCha20KeyWorker = (seed: string) => {
+export const useHashWorker = (seed: string) => {
   const workerRef = useRef<Worker>();
 
-  const [key, setKey] = useState<XChaCha20Key>(new Uint8Array());
+  const [isLoading, setLoading] = useState<boolean>(false);
+  const [hash, setHash] = useState<string>('');
 
   useEffect(() => {
-    workerRef.current = new Worker(new URL('../../workers/xChaCha20Key.ts', import.meta.url));
+    workerRef.current = new Worker(new URL('../../workers/hash.ts', import.meta.url));
 
     return () => {
       workerRef.current.terminate();
@@ -16,14 +15,19 @@ export const useXChaCha20KeyWorker = (seed: string) => {
   }, []);
 
   useEffect(() => {
+    setLoading(true);
     workerRef.current.postMessage({ seed });
 
     workerRef.current.onmessage = (event) => {
       if (seed === event.data.seed) {
-        setKey(event.data.key);
+        setLoading(false);
+        setHash(event.data.hash);
       }
     };
   }, [seed, workerRef]);
 
-  return key;
+  return {
+    isLoading,
+    hash
+  };
 };
