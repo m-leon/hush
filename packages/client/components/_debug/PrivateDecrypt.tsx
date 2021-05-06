@@ -2,35 +2,35 @@ import { useEffect, useState } from 'react';
 
 import { decryptMessage, getXChaCha20Key } from '@/lib/xchacha20';
 
-const Decrypt = () => {
+const PrivateDecrypt = () => {
   const [seed, setSeed] = useState('');
-  const [clear, setClear] = useState('');
-  const [ciphertext, setCipher] = useState('');
+  const [cleartext, setCleartext] = useState('');
+  const [ciphertext, setCiphertext] = useState('');
 
   useEffect(() => {
     (async () => {
       try {
         const key = await getXChaCha20Key(seed);
-        const clear = await decryptMessage(ciphertext, key);
-        setClear(clear);
+        const cleartext = await decryptMessage(ciphertext, key);
+        setCleartext(cleartext);
       } catch (e) {
         console.log(e);
-        setClear('');
+        setCleartext('');
       }
     })();
   }, [seed, ciphertext]);
 
   return (
     <div>
-      <h1>DECRYPT</h1>
+      <h1>PRIVATE DECRYPT</h1>
       <label>Seed</label>
       <input type="text" value={seed} onChange={(e) => setSeed(e.target.value)} />
       <label>Cipher</label>
-      <input type="text" value={ciphertext} onChange={(e) => setCipher(e.target.value)} />
+      <input type="text" value={ciphertext} onChange={(e) => setCiphertext(e.target.value)} />
       <label>Message</label>
-      <span>{clear}</span>
+      <span>{cleartext}</span>
     </div>
   );
 };
 
-export default Decrypt;
+export default PrivateDecrypt;
