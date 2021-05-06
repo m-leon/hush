@@ -1,17 +1,16 @@
 import { useEffect, useState } from 'react';
 
-import { decryptMessage, useXChaCha20Key } from '@/lib/xchacha20';
+import { decryptMessage, getXChaCha20Key } from '@/lib/xchacha20';
 
 const Decrypt = () => {
   const [seed, setSeed] = useState('');
   const [clear, setClear] = useState('');
   const [ciphertext, setCipher] = useState('');
 
-  const key = useXChaCha20Key(seed);
-
   useEffect(() => {
     (async () => {
       try {
+        const key = await getXChaCha20Key(seed);
         const clear = await decryptMessage(ciphertext, key);
         setClear(clear);
       } catch (e) {
@@ -19,7 +18,7 @@ const Decrypt = () => {
         setClear('');
       }
     })();
-  }, [key, ciphertext]);
+  }, [seed, ciphertext]);
 
   return (
     <div>
